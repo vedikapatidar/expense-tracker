@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
+import ParticipantList from "./components/ParticipantList";
+import AddExpense from "./components/AddExpense";
+import ExpenseList from "./components/ExpenseList";
+import BalanceSummary from "./components/BalanceSummary";
 import './App.css';
 
 function App() {
+  const [participants, setParticipants] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+
+  const handleAddParticipant = (name) => {
+    if (!participants.includes(name)) {
+      setParticipants([...participants, name]);
+    }
+  };
+
+  const handleAddExpense = (expense) => {
+    setExpenses([...expenses, expense]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Shared Expense Tracker</h1>
+      <ParticipantList participants={participants} onAddParticipant={handleAddParticipant} />
+      <AddExpense participants={participants} onAddExpense={handleAddExpense} />
+      <ExpenseList expenses={expenses} />
+      <BalanceSummary participants={participants} expenses={expenses} />
     </div>
   );
 }
